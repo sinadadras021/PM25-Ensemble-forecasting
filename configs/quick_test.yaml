@@ -1,0 +1,48 @@
+# =============================================================================
+# Smoke-test configuration for CI and first contact with a new archive.
+# =============================================================================
+# Tiny networks, 1 epoch, two base learners. NOT for science: it exists to prove
+# the plumbing works end to end in about a minute on a laptop CPU. If `run-all`
+# completes with this config, your data is readable and your splits are sane --
+# only then is a real run worth starting.
+# =============================================================================
+
+project: pm25-smoke
+seed: 0
+deterministic: false
+
+paths:
+  raw_dir: "<SET ME>"
+  work_dir: "./artifacts_smoke"
+
+data:
+  global_start: "2021-01-01 00:00"
+  global_end: "2022-12-31 23:00"
+
+split:
+  development: ["2021-01-01 00:00", "2022-06-30 23:00"]
+  test:        ["2022-07-01 00:00", "2022-12-31 23:00"]
+  base_train_ratio: 0.70
+  gap_hours: 48
+
+windows:
+  stride: {train: 24, val: 1, test: 48}
+  min_windows: {train: 20, val: 10, test: 5}
+
+base_models:
+  names: ["gru", "bi_gru"]
+  rnn_units: [8, 8]
+  bi_units: [8, 8]
+  epochs: 1
+  batch_size: 64
+  early_stopping_patience: 1
+
+ensembles:
+  names: ["sa", "pwe", "mlp_meta", "xgb_meta", "h_mos", "sms"]
+  mlp_hidden: [8, 4]
+  mlp_epochs: 2
+  xgb_n_estimators: 10
+  sms_n_estimators: 10
+
+evaluation:
+  run_ablation: false

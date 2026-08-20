@@ -1,0 +1,12 @@
+# Generated from pyproject.toml -- `pip install -e .` is preferred.
+# On a machine without CUDA, replace tensorflow with tensorflow-cpu.
+numpy>=1.24,<3
+pandas>=2.0
+pyarrow>=12.0
+scikit-learn>=1.3
+scipy>=1.10
+joblib>=1.3
+PyYAML>=6.0
+matplotlib>=3.7
+tensorflow>=2.15,<3
+xgboost>=1.7

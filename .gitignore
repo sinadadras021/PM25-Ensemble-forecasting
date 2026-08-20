@@ -1,0 +1,60 @@
+# ---------------------------------------------------------------------------
+# Data and artefacts are deliberately NOT tracked.
+#
+# The monitoring data used in this study belongs to the Tehran Air Quality
+# Control Company and the Iran Meteorological Organization and is not ours to
+# redistribute. The code is the contribution; point `paths.raw_dir` at your own
+# archive (see docs/DATA_SCHEMA.md for the expected columns).
+# ---------------------------------------------------------------------------
+artifacts/
+artifacts_*/
+data/
+raw_data/
+*.csv
+*.xlsx
+*.xls
+*.nc
+*.rar
+*.zip
+!tests/**/*.csv
+
+# Model weights and fitted objects
+*.keras
+*.h5
+*.pkl
+*.joblib
+*.npz
+*.parquet
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.venv/
+venv/
+env/
+.python-version
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
