@@ -6,10 +6,14 @@
 # redistribute. The code is the contribution; point `paths.raw_dir` at your own
 # archive (see docs/DATA_SCHEMA.md for the expected columns).
 # ---------------------------------------------------------------------------
-artifacts/
-artifacts_*/
-data/
-raw_data/
+# Anchored with a leading slash so they match only at the repository root.
+# An unanchored `data/` would also match `src/<package>/data/`, silently
+# excluding a source subpackage from the repository -- the clone would then fail
+# to import, and only on someone else's machine.
+/artifacts/
+/artifacts_*/
+/data/
+/raw_data/
 *.csv
 *.xlsx
 *.xls
