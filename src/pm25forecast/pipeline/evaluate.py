@@ -73,8 +73,7 @@ def evaluate_station(slug: str, cfg: Config) -> Optional[pd.DataFrame]:
                 logger.warning("%s: ensemble %s was not fitted; skipped.", station, name)
                 continue
             ensemble = joblib.load(path)
-            prediction = predict_with_ensemble(ensemble, members, context_flat, hours)
-            forecasts[name] = np.clip(prediction, clip[0], clip[1]) if clip else prediction
+            forecasts[name] = predict_with_ensemble(ensemble, members, context_flat, hours)
             strategy[name] = ENSEMBLE_STRATEGY.get(name, "unknown")
     else:
         logger.warning("%s: no ensembles found; scoring base learners only.", station)
@@ -109,6 +108,17 @@ def evaluate_station(slug: str, cfg: Config) -> Optional[pd.DataFrame]:
         )
         forecasts.update(extra)
         strategy.update({k: "Baseline" for k in extra})
+
+    # -- physical bounds, applied to EVERY forecaster ------------------------- #
+    # A negative PM2.5 concentration is impossible for any model, so the bound is
+    # a property of the quantity and must be applied uniformly. Clipping only the
+    # ensembles would hand them an advantage over the base learners they are
+    # compared against -- small, but the same order as the margin being reported.
+    if clip:
+        forecasts = {
+            name: np.clip(prediction, clip[0], clip[1])
+            for name, prediction in forecasts.items()
+        }
 
     # -- score ---------------------------------------------------------------- #
     rows: List[Dict[str, object]] = []

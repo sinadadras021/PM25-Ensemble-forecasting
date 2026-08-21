@@ -390,3 +390,29 @@ def tf_losses():
     from pm25forecast.models.losses import resolve_loss
 
     return {"tf": tf, "iwl": resolve_loss("iwl", alpha=10.0), "eel": resolve_loss("eel", power=2.0)}
+
+
+# --------------------------------------------------------------------------- #
+# Fair comparison -- physical bounds apply to every forecaster
+# --------------------------------------------------------------------------- #
+def test_prediction_clip_is_applied_to_every_forecaster_or_to_none():
+    """The physical bound must not be applied to the ensemble alone.
+
+    A negative PM2.5 concentration is impossible for every model equally, so the
+    clip is a property of the quantity. Applying it only to the ensembles would shrink
+    the ensembles' error without shrinking the members' -- an advantage of the same order
+    as the margin the paper reports, manufactured by the scoring code rather than
+    earned by the method.
+    """
+    import inspect
+
+    from pm25forecast.pipeline import evaluate as evaluate_module
+
+    source = inspect.getsource(evaluate_module.evaluate_station)
+    clip_line = "name: np.clip(prediction, clip[0], clip[1])"
+    assert clip_line in source, (
+        "the uniform clip over every entry of `forecasts` is gone -- "
+        "check that the bound is not being applied to a subset of models"
+    )
+    # ...and that it happens after every forecaster is in the dict, i.e. before scoring.
+    assert source.index(clip_line) < source.index("for name, prediction in forecasts.items():")
