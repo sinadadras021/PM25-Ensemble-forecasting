@@ -1,4 +1,8 @@
-# PM2.5 ensemble forecasting
+# PM2.5 Ensemble Forecasting
+
+[![Runtime checks](https://github.com/sinadadras021/PM25-Ensemble-forecasting/actions/workflows/static-check.yml/badge.svg)](https://github.com/sinadadras021/PM25-Ensemble-forecasting/actions/workflows/static-check.yml)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue.svg)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Four pooled recurrent networks and six ensemble strategies for 48-hour urban
 PM2.5 forecasts. The implementation follows the methodological description in
@@ -10,6 +14,19 @@ analysis and both SHAP explainers. This checks execution and selected invariants
 it does not reproduce the paper's results or prove the absence of every bug.
 No full research training was performed for this release. Earlier implementations
 remain in Git history; their saved metrics are not outputs of this version.
+
+## Start here
+
+| Task | Reference |
+| --- | --- |
+| Understand the source layout | [Project guide](PROJECT_GUIDE.txt) |
+| Trace manuscript methods to code | [Method alignment](docs/METHODS_ALIGNMENT.md) |
+| Inspect test scope and limitations | [Validation record](docs/VALIDATION.md) |
+| Configure a research run | [Paper configuration](configs/paper.json) |
+
+**Source-only repository:** datasets, trained weights, generated predictions and
+manuscript files are not distributed here. Automated tests generate artificial
+data in a temporary directory.
 
 ## Implemented method
 
@@ -94,7 +111,9 @@ latency assumption. A pre-merged file must already respect availability at issue
 ## Install and future commands
 
 ```bash
-pip install -e .
+git clone https://github.com/sinadadras021/PM25-Ensemble-forecasting.git
+cd PM25-Ensemble-forecasting
+python -m pip install -e .
 # Edit configs/paper.json: raw directory, NEW output directory, source time/units.
 pm25forecast validate-config --config configs/paper.json
 pm25forecast prepare --config configs/paper.json
@@ -137,6 +156,14 @@ search utility, not evidence that the historical search happened, and does not
 reconstruct separate original ensemble tuning. Do not describe a one-point
 fixed configuration or invented grid as a reproduced optimization experiment.
 
-There are also irreconcilable old/current method and result descriptions. See
-`docs/METHODS_ALIGNMENT.md` before interpreting any manuscript result. The supplied code does not establish
-that numerical results obtained with the older method validate this implementation.
+The earlier implementation and the current manuscript describe different
+methods. See [the alignment notes](docs/METHODS_ALIGNMENT.md) before interpreting
+any manuscript result. Numerical results obtained with the older method do not
+validate this implementation.
+
+## Citation and license
+
+See [CITATION.cff](CITATION.cff) for software citation and [LICENSE](LICENSE)
+for the MIT license.
+
+Author: [Sina Dadras](https://github.com/sinadadras021) · [CV](https://github.com/sinadadras021/CV)
