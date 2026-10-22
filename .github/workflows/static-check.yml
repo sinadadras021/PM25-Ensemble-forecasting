@@ -1,0 +1,18 @@
+name: Source and synthetic runtime checks
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install -e '.[test]' 'tensorflow==2.15.1'
+      - run: python -m compileall -q src tests
+      - run: python -m pytest -q --durations=8
+        env:
+          CUDA_VISIBLE_DEVICES: '-1'
+          TF_CPP_MIN_LOG_LEVEL: '2'
+          MPLBACKEND: Agg
+      # Only synthetic smoke data. No research data, experiment or paper scores.

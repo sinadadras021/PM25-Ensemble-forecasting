@@ -1,87 +1,29 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pm25forecast"
-version = "1.0.0"
-description = "Multi-strategy deep ensembles for 48-hour urban PM2.5 forecasting"
-readme = "README.md"
-requires-python = ">=3.10"
-license = { text = "MIT" }
-authors = [{ name = "Sina Dadras" }]
-keywords = [
-    "air-quality", "pm2.5", "time-series", "deep-learning",
-    "ensemble-learning", "stacking", "forecasting", "environmental-science",
-]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Scientific/Engineering :: Atmospheric Science",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-]
-dependencies = [
-    "numpy>=1.24,<3",
-    "pandas>=2.0",
-    "pyarrow>=12.0",
-    "scikit-learn>=1.3",
-    "scipy>=1.10",
-    "joblib>=1.3",
-    "PyYAML>=6.0",
-    "matplotlib>=3.7",
-    "tensorflow>=2.15,<3",
-    "xgboost>=1.7",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.4",
-    "pytest-cov>=4.1",
-    "ruff>=0.4",
-    "black>=24.0",
-    "mypy>=1.8",
-]
-cpu = ["tensorflow-cpu>=2.15,<3"]
+version = "2.0.0"
+description = "Pooled deep ensembles for 48-hour urban PM2.5 forecasting"
+requires-python = ">=3.10,<3.12"
+dependencies = ["numpy>=1.24,<2", "pandas>=2,<3", "scipy>=1.10,<2", "scikit-learn>=1.3,<1.6", "joblib>=1.3", "tensorflow>=2.10,<2.16", "xgboost>=1.7,<4", "matplotlib>=3.7,<4", "shap>=0.46,<0.50"]
 
 [project.scripts]
 pm25forecast = "pm25forecast.cli:main"
 
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
 [project.urls]
-Homepage = "https://github.com/sinadadras021/pm25-ensemble-forecasting"
-Issues = "https://github.com/sinadadras021/pm25-ensemble-forecasting/issues"
+Repository = "https://github.com/sinadadras021/PM25-Ensemble-forecasting"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q --strict-markers"
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::FutureWarning",
-]
-markers = [
-    "slow: end-to-end runs that train real (if tiny) networks",
-]
-
-[tool.ruff]
-line-length = 100
-target-version = "py310"
-src = ["src", "tests"]
-
-[tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
-ignore = ["E501", "B008"]
 
 [tool.black]
-line-length = 100
+line-length = 88
 target-version = ["py310"]
-
-[tool.mypy]
-python_version = "3.10"
-ignore_missing_imports = true
-warn_unused_ignores = false

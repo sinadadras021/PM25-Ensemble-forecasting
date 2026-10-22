@@ -1,29 +1,20 @@
 cff-version: 1.2.0
-title: >-
-  pm25forecast: multi-strategy deep ensembles for 48-hour urban PM2.5
-  forecasting
-message: >-
-  If you use this software, please cite both the software and the
-  associated paper.
+title: "pm25forecast: pooled deep ensembles for 48-hour urban PM2.5 forecasting"
+message: "If you use this software, please cite the software and associated paper."
 type: software
 authors:
   - family-names: Dadras
     given-names: Sina
-repository-code: "https://github.com/sinadadras021/pm25-ensemble-forecasting"
+repository-code: "https://github.com/sinadadras021/PM25-Ensemble-forecasting"
 abstract: >-
-  A configuration-driven, leakage-audited implementation comparing six
-  ensemble strategies for 48-hour PM2.5 forecasting: statistical averaging
-  (simple and SLSQP performance-weighted), non-linear meta-learning (MLP
-  and gradient-boosted trees) and context-aware selection (hourly model
-  output statistics and a random-forest model selector), over four deep
-  base learners trained with inverse-weighted and exponential-extreme
-  losses.
+  Four pooled recurrent base models with six ensemble strategies, chronological
+  stacking, training-calibrated preprocessing and retrospective evaluation tools.
+  This implementation follows the manuscript method; a synthetic smoke test
+  does not reproduce or validate the manuscript's numerical results.
 keywords:
-  - air quality
   - PM2.5
-  - deep learning
+  - air quality
   - ensemble learning
-  - stacking
-  - time series forecasting
+  - forecasting
 license: MIT
-version: 1.0.0
+version: 2.0.0
